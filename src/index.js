@@ -29,6 +29,7 @@ function handleSearchFormSubmit(evt) {
   pixabuyApi
     .fetchPixabayPhotos()
     .then(({ data }) => {
+      pixabuyApi.page = 1;
       const cartData = data.hits;
       galleryListEl.innerHTML = createGalleryCards(cartData);
       lightbox.refresh();
@@ -59,7 +60,10 @@ function handleLoadMorePhotos() {
         createGalleryCards(cartData)
       );
       lightbox.refresh();
-      if (data.totalHits > countOfPages) {
+      console.log(data);
+      console.log(pixabuyApi.page);
+      console.log(countOfPages);
+      if (pixabuyApi.page > countOfPages) {
         Notify.failure(
           `We're sorry, but you've reached the end of search results.`
         );
