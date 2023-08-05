@@ -4,6 +4,7 @@ export class PixabayAPI {
   #BASE_URL = 'https://pixabay.com/api/';
   query = null;
   page = 1;
+  per_page = 40;
 
   fetchPixabayPhotos = async () => {
     return await axios.get(`${this.#BASE_URL}${this.#API_KEY}`, {
@@ -13,9 +14,8 @@ export class PixabayAPI {
         orientation: 'horizontal',
         safesearch: true,
         page: this.page,
-        per_page: 40,
+        per_page: this.per_page,
       },
     });
   };
 }
-// fetchPixabayPhotos();

@@ -1,7 +1,15 @@
 import axios from 'axios';
-import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import { PixabayAPI } from './api';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+  alertError: false,
+  loop: true,
+});
 
 const pixabuyApi = new PixabayAPI();
 
@@ -14,14 +22,25 @@ loadMoreBtnEl.addEventListener('click', handleLoadMorePhotos);
 
 function handleSearchFormSubmit(evt) {
   evt.preventDefault();
+  galleryListEl.innerHTML = '';
   const searchQuery = evt.currentTarget.elements.searchQuery.value.trim();
   pixabuyApi.query = searchQuery;
+
   pixabuyApi
     .fetchPixabayPhotos()
     .then(({ data }) => {
-      console.log(data);
       const cartData = data.hits;
       galleryListEl.innerHTML = createGalleryCards(cartData);
+      lightbox.refresh();
+      if (cartData.length === 0) {
+        Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+        loadMoreBtnEl.classList.add('is-hidden');
+      } else {
+        Notify.success(`Hooray! We found ${data.totalHits} images.`);
+        loadMoreBtnEl.classList.remove('is-hidden');
+      }
     })
     .catch(err => {
       console.log(err);
@@ -30,21 +49,22 @@ function handleSearchFormSubmit(evt) {
 
 function handleLoadMorePhotos() {
   pixabuyApi.page += 1;
-  console.log(pixabuyApi.page);
   pixabuyApi
     .fetchPixabayPhotos()
     .then(({ data }) => {
       const cartData = data.hits;
-      console.log(data);
-      console.log(cartData.length);
-      if (cartData.length < data.total) {
-        loadMoreBtnEl.classList.add('is-hidden');
-      }
-
+      const countOfPages = data.total / pixabuyApi.per_page;
       galleryListEl.insertAdjacentHTML(
         'beforeend',
         createGalleryCards(cartData)
       );
+      lightbox.refresh();
+      if (data.totalHits > countOfPages) {
+        Notify.failure(
+          `We're sorry, but you've reached the end of search results.`
+        );
+        loadMoreBtnEl.classList.add('is-hidden');
+      }
     })
     .catch(err => {
       console.log(err);
@@ -62,20 +82,20 @@ function createGalleryCards(arr) {
         webformatURL,
         tags,
         largeImageURL,
-      }) => `<img src="${webformatURL}" alt="${tags}" loading="lazy" />
+      }) => `<li class="photo-card"><a class="gallery__link" href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy"/></a>
             <div class="info">
               <p class="info-item">
-                <b>Likes</b>${likes}
+                <b>Likes</b><span>${likes}</span>
               </p>
               <p class="info-item">
-                <b>Views</b>${views}
+                <b>Views</b><span>${views}</span>
               </p>
               <p class="info-item">
-                <b>Comments</b>${comments}
+                <b>Comments</b><span>${comments}</span>
               </p>
               <p class="info-item">
-                <b>Downloads</b>${downloads}
-              </p>`
+                <b>Downloads</b><span>${downloads}</span>
+              </p></div></li>`
     )
     .join('');
 }

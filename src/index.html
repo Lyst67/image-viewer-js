@@ -9,23 +9,21 @@
   </head>
   <body>
     <section class="gallery-section">
+      <form class="search-form" id="search-form">
+        <input
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
+        <button type="submit">Search</button>
+      </form>
       <div class="container">
-        <form class="search-form" id="search-form">
-          <input
-            type="text"
-            name="searchQuery"
-            autocomplete="off"
-            placeholder="Search images..."
-          />
-          <button type="submit">Search</button>
-        </form>
-        <div class="gallery js-gallery">
-          <div class="photo-card">
-            
-            </div>
-          </div>
+        <div class="gallery">
+          <a href=" "><img src=" " alt="" title="" /></a>
         </div>
-        <button type="button" class="load-more">Load more</button>
+        <ul class="gallery js-gallery"></ul>
+        <button type="button" class="load-more is-hidden">Load more</button>
       </div>
     </section>
 

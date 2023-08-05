@@ -1,14 +1,14 @@
 @import './common';
 @import './example';
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji';
+    font-family: "Roboto", sans-serif;
+       
 }
 
 img {
-    display: block;
-    max-width: 100%;
-    height: auto;
+    height: 200px;
+    min-width: 100%;
+    // object-fit: cover;
 }
 
 h1,
@@ -21,29 +21,77 @@ p {
     margin-top: 0;
     margin-bottom: 0;
 }
-
 ul,
 ol {
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 0;
-}
-
-.list {
     list-style: none;
 }
-
-.link {
-    text-decoration: none;
-}
-
 .container {
     width: 1200px;
     padding-left: 15px;
     padding-right: 15px;
+    margin-top: 40px;
     margin-left: auto;
     margin-right: auto;
 }
+.search-form {
+    position: fixed ;
+    top: 0;
+    width: 100%;
+   height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(22, 22, 240, 0.8);
+}
+.search-form button {
+    background-color: #5ade91;
+    border-radius: 4px;
+}
+.gallery {
+   display: flex;
+    flex-wrap: wrap;
+    gap: 10px; 
+    
+}
+.photo-card {
+    display: flex;
+    flex-direction: column;
+    width: calc((100% - 30px) / 4);
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: rgb(236, 237, 237);
+}
+.info {
+    display: flex; 
+    justify-content: space-between;
+    max-height: 40px;
+    margin-top: auto;
+    margin-bottom: 0;
+}
+.info-item {
+    font-size: 12px;
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 4px 0;
+}
+.load-more {
+    display: block;
+    margin: 4px auto 0;
+    background-color: #5ade91;
+    border-radius: 4px;
+}
 .is-hidden {
+    display: none;
+}
+.gallery__link {
+    text-decoration: none;
+}
+div.gallery {
     display: none;
 }
