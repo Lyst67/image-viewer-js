@@ -1,4 +1,3 @@
-import axios from 'axios';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { PixabayAPI } from './api';
@@ -23,13 +22,13 @@ loadMoreBtnEl.addEventListener('click', handleLoadMorePhotos);
 function handleSearchFormSubmit(evt) {
   evt.preventDefault();
   galleryListEl.innerHTML = '';
+  pixabuyApi.page = 1;
   const searchQuery = evt.currentTarget.elements.searchQuery.value.trim();
   pixabuyApi.query = searchQuery;
 
   pixabuyApi
     .fetchPixabayPhotos()
     .then(({ data }) => {
-      pixabuyApi.page = 1;
       const cartData = data.hits;
       galleryListEl.innerHTML = createGalleryCards(cartData);
       lightbox.refresh();
