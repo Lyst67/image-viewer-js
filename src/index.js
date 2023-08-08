@@ -58,6 +58,7 @@ function handleLoadMorePhotos() {
         'beforeend',
         createGalleryCards(cartData)
       );
+      smoothPageScrolling();
       lightbox.refresh();
       console.log(data);
       console.log(pixabuyApi.page);
@@ -101,4 +102,14 @@ function createGalleryCards(arr) {
               </p></div></li>`
     )
     .join('');
+}
+
+function smoothPageScrolling() {
+  const { height: cardHeight } =
+    galleryListEl.firstElementChild.getBoundingClientRect();
+  console.log(galleryListEl.firstElementChild);
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
 }
