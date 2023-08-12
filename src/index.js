@@ -86,7 +86,8 @@ function createGalleryCards(arr) {
         webformatURL,
         tags,
         largeImageURL,
-      }) => `<li class="photo-card"><a class="gallery__link" href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy"/></a>
+      }) => `<li class="photo-card"><div class="photo"><a class="gallery__link" href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy"/></a>
+      </div>
             <div class="info">
               <p class="info-item">
                 <b>Likes</b><span>${likes}</span>
