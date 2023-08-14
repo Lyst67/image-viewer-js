@@ -12,16 +12,18 @@ const lightbox = new SimpleLightbox('.gallery a', {
 
 const pixabuyApi = new PixabayAPI();
 
-const formEl = document.querySelector('.search-form');
-const galleryListEl = document.querySelector('.js-gallery');
-const loadMoreBtnEl = document.querySelector('.load-more');
+const refs = {
+  formEl: document.querySelector('.search-form'),
+  galleryListEl: document.querySelector('.js-gallery'),
+  loadMoreBtnEl: document.querySelector('.load-more'),
+};
 
-formEl.addEventListener('submit', handleSearchFormSubmit);
-loadMoreBtnEl.addEventListener('click', handleLoadMorePhotos);
+refs.formEl.addEventListener('submit', handleSearchFormSubmit);
+refs.loadMoreBtnEl.addEventListener('click', handleLoadMorePhotos);
 
 function handleSearchFormSubmit(evt) {
   evt.preventDefault();
-  galleryListEl.innerHTML = '';
+  refs.galleryListEl.innerHTML = '';
   pixabuyApi.page = 1;
   const searchQuery = evt.currentTarget.elements.searchQuery.value.trim();
   pixabuyApi.query = searchQuery;
@@ -30,16 +32,16 @@ function handleSearchFormSubmit(evt) {
     .fetchPixabayPhotos()
     .then(({ data }) => {
       const cartData = data.hits;
-      galleryListEl.innerHTML = createGalleryCards(cartData);
+      refs.galleryListEl.innerHTML = createGalleryCards(cartData);
       lightbox.refresh();
       if (cartData.length === 0) {
         Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
-        loadMoreBtnEl.classList.add('is-hidden');
+        refs.loadMoreBtnEl.classList.add('is-hidden');
       } else {
         Notify.success(`Hooray! We found ${data.totalHits} images.`);
-        loadMoreBtnEl.classList.remove('is-hidden');
+        refs.loadMoreBtnEl.classList.remove('is-hidden');
       }
     })
     .catch(err => {
@@ -54,7 +56,7 @@ function handleLoadMorePhotos() {
     .then(({ data }) => {
       const cartData = data.hits;
       const countOfPages = data.total / pixabuyApi.per_page;
-      galleryListEl.insertAdjacentHTML(
+      refs.galleryListEl.insertAdjacentHTML(
         'beforeend',
         createGalleryCards(cartData)
       );
@@ -107,8 +109,7 @@ function createGalleryCards(arr) {
 
 function smoothPageScrolling() {
   const { height: cardHeight } =
-    galleryListEl.firstElementChild.getBoundingClientRect();
-  console.log(galleryListEl.firstElementChild);
+    refs.galleryListEl.firstElementChild.getBoundingClientRect();
   window.scrollBy({
     top: cardHeight * 2,
     behavior: 'smooth',
