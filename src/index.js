@@ -24,6 +24,7 @@ refs.loadMoreBtnEl.addEventListener('click', handleLoadMorePhotos);
 function handleSearchFormSubmit(evt) {
   evt.preventDefault();
   refs.galleryListEl.innerHTML = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   pixabuyApi.page = 1;
   const searchQuery = evt.currentTarget.elements.searchQuery.value.trim();
   pixabuyApi.query = searchQuery;
@@ -62,7 +63,6 @@ function handleLoadMorePhotos() {
       );
       smoothPageScrolling();
       lightbox.refresh();
-      console.log(data);
       console.log(pixabuyApi.page);
       console.log(countOfPages);
       if (pixabuyApi.page > countOfPages) {
