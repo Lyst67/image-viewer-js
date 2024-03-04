@@ -1,11 +1,11 @@
 {
-  "name": "parcel-project-template",
+  "name": "image-viewer-js",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://lyst67.github.io/goit-js-hw-11/",
+  "homepage": "https://lyst67.github.io/image-viewer-js/",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /goit-js-hw-11/"
+    "build": "parcel build src/*.html --public-url /image-viewer-js/"
   },
   "repository": {
     "type": "git",
